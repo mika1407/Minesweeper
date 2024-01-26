@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
       square.addEventListener('click', function(e) {
         click(square)
       })
+
+      //cntrl and left click
+      square.oncontextmenu = function(e) {
+        e.preventDefault()
+        addFlag(square)
+      }
     }
 
     //add numbers
@@ -46,10 +52,27 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[i].setAttribute('data', total)
       }
     }
-
   }
   createBoard()
 
+  //add Flag with right click
+  function addFlag(square) {
+    if (isGameOver) return
+    if (!square.classList.contains('checked') && (flags < bombAmount)) {
+      if (!square.classList.contains('flag')) {
+        square.classList.add('flag')
+        square.innerHTML = ' 🚩'
+        flags ++
+        flagsLeft.innerHTML = bombAmount- flags
+        checkForWin()
+      } else {
+        square.classList.remove('flag')
+        square.innerHTML = ''
+        flags --
+        flagsLeft.innerHTML = bombAmount- flags
+      }
+    }
+  }
 
 //click on square actions
   function click(square) {
