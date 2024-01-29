@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid')
+  const flagsLeft = document.querySelector('#flags-left')
+  const result = document.querySelector('#result')
   let width = 10
   let bombAmount = 20
   let flags = 0
@@ -156,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //game over
   function gameOver(square) {
-    //result.innerHTML = 'BOOM! Game Over!'
+    result.innerHTML = 'BOOM! Game Over!'
     console.log('BOOM! Game Over!')
     isGameOver = true
 
@@ -164,10 +166,25 @@ document.addEventListener('DOMContentLoaded', () => {
     squares.forEach(square => {
       if (square.classList.contains('bomb')) {
         square.innerHTML = '💣'
-        // square.classList.remove('bomb')
-        // square.classList.add('checked')
+        square.classList.remove('bomb')
+        square.classList.add('checked')
       }
     })
   }
 
+  //check for win
+  function checkForWin() {
+    ///simplified win argument
+  let matches = 0
+
+    for (let i = 0; i < squares.length; i++) {
+      if (squares[i].classList.contains('flag') && squares[i].classList.contains('bomb')) {
+        matches ++
+      }
+      if (matches === bombAmount) {
+        result.innerHTML = 'YOU WIN!'
+        isGameOver = true
+      }
+    }
+  }
 })
